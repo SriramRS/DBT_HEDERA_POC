@@ -1,0 +1,272 @@
+<!-- header div -->
+<header-div></header-div>
+<!-- Main Div -->
+<div class="home-page" style="margin-top:66px">
+    <div class="col-md-12">
+      <mat-tab-group class="tabs" [selectedIndex]= 0 >
+        <mat-tab label="Sales Data">
+          <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+            <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>
+          </div>
+          <mat-card class="vehiclecard" *ngIf="showGrid">
+          <mat-card-content>
+          <div class="container page" *ngIf="showGrid">
+            <div>
+                <div class="col-md-4">
+                  <h4 class="main-route">Transactions</h4>
+                </div>
+                <div class="col-md-8 text-right float-right">
+                  <mat-form-field >
+                    <input matInput placeholder="nodeBalance" [(ngModel)] ="nodeBalance" name="nodeBalance" [disabled]="true" >
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" (click)="getBalance();" >GetBalance</button>
+                </div>
+            </div>
+              <div class="example-container" class="col-xs-12">
+                <mat-table #table [dataSource]="dataSource1">
+
+                  <ng-container matColumnDef="saleOrdId">
+                    <mat-header-cell *matHeaderCellDef> Sale Order ID</mat-header-cell>
+                    <mat-cell *matCellDef="let element" style="cursor: pointer;color: dodgerblue;text-decoration: underline;"  (click)="getTransactionDataBySaleId(element.saleOrdId);"> {{element.saleOrdId}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="fartzName">
+                    <mat-header-cell *matHeaderCellDef> Fertilizer Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.fartzName}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="qty">
+                    <mat-header-cell *matHeaderCellDef> OrderQuantity </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="totalPrice">
+                    <mat-header-cell *matHeaderCellDef> TotalPrice </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.totalPrice}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="subAmount">
+                    <mat-header-cell *matHeaderCellDef> SubsidyAmount </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.subAmount}} </mat-cell>
+                  </ng-container>
+
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+                </mat-table>
+
+                <mat-paginator #paginator
+                               [pageSize]="5"
+                               [showFirstLastButtons]="true">
+                </mat-paginator>
+              </div>
+          </div>
+          </mat-card-content>
+         </mat-card>
+
+         <mat-card class="vehiclecard" *ngIf="showForm">
+           <mat-card-content>
+             <div class="form-container">
+                 <div class="form-header">Sale Order Details</div>
+                 <br><br>
+                 <div class="form-row">
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Customer ID" [(ngModel)] ="customer.customerId" name="customerId" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Customer Name" [(ngModel)] ="customer.customerNm" name="customerNm" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Contact Number" [(ngModel)] ="customer.contactNumber" name="contactNumber" [disabled]="true" >
+                     </mat-form-field>
+                 </div>
+                 <br><br>
+                 <div class="form-row">
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Location" [(ngModel)] ="customer.location" name="Location" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Land Type" [(ngModel)] ="customer.landArea" name="landArea" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Land Area" [(ngModel)] ="saleData.invoiceNo" name="invoiceNo" [disabled]="true" >
+                     </mat-form-field>
+                 </div>
+                 <br><br>
+                 <div class="form-row">
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Fertilizer Name" [(ngModel)] ="saleData.fartzName" name="fartzName" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Manufacturer Name" [(ngModel)] ="saleData.manfName" name="manfName" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Order Quantity" [(ngModel)] ="saleData.qty" name="qty" [disabled]="true" >
+                     </mat-form-field>
+                 </div>
+                 <br><br>
+                 <div class="form-row">
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Total Price" [(ngModel)] ="saleData.totalPrice" name="totalPrice" [disabled]="true" >
+                     </mat-form-field>
+
+                     <mat-form-field class="col-md-4">
+                       <input matInput placeholder="Subsidy Amount" [(ngModel)] ="saleData.subAmount" name="subAmount" [disabled]="true" >
+                     </mat-form-field>
+                 </div>
+             </div>
+             <br><br>
+
+             <div class="form-row">
+                 <button  mat-raised-button color="primary" (click)="acceptClaim();">Approve</button>
+                 <button  mat-raised-button color="primary" (click)="rejectClaim();">Reject</button>
+                 <button  mat-raised-button color="primary" (click)="showForm=false;showGrid=true;">Back</button>
+             </div>
+           </mat-card-content>
+         </mat-card>
+
+        </mat-tab>
+        <mat-tab class="mat-tab-label-style" label="Claims" active>
+            <br>
+            <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+              <!--<mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>-->
+            </div>
+            <mat-card class="vehiclecard" *ngIf="showGrid">
+            <mat-card-content>
+            <div class="container page" *ngIf="showGrid">
+              <div>
+                  <div class="col-md-4">
+                    <h4 class="main-route">Claims</h4>
+                  </div>
+                  <div class="col-md-8 text-right float-right">
+                    <mat-form-field >
+                      <input matInput placeholder="nodeBalance" [(ngModel)] ="nodeBalance" name="nodeBalance" [disabled]="true" >
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="getBalance();" >GetBalance</button>
+                  </div>
+              </div>
+                <div class="example-container" class="col-xs-12">
+                  <mat-table #table [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="claimID">
+                      <mat-header-cell *matHeaderCellDef> Claim ID</mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.claimID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="manufactName">
+                      <mat-header-cell *matHeaderCellDef> Manufacturer Name </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.manufactName}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="manufactID">
+                      <mat-header-cell *matHeaderCellDef> Manufacturer Id </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.manufactID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalSubAmt">
+                      <mat-header-cell *matHeaderCellDef> Total Subsidy Amount </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.totalSubAmt}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                      <mat-header-cell *matHeaderCellDef> ClaimStatus </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+                    </ng-container>
+
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  </mat-table>
+
+                  <mat-paginator #paginator
+                                 [pageSize]="5"
+                                 [showFirstLastButtons]="true">
+                  </mat-paginator>
+                </div>
+            </div>
+            </mat-card-content>
+           </mat-card>
+           <!-- <form [formGroup]="contractDetailForm"> -->
+           <mat-card class="vehiclecard" *ngIf="showForm">
+            <mat-card-content>
+              <form  #contractForm="ngForm" >
+                <div class="container page" *ngIf="showForm">
+                  <div class="form-container">
+                      <div class="form-header">Sale Order Details</div>
+                      <br><br>
+                      <div class="form-row">
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Customer ID" [(ngModel)] ="claimData.customerId" name="customerId" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Customer Name" [(ngModel)] ="claimData.customerName" name="customerName" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Contact Number" [(ngModel)] ="claimData.contactNumber" name="customerName" [disabled]="true" >
+                          </mat-form-field>
+                      </div>
+                      <br><br>
+                      <div class="form-row">
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Location" [(ngModel)] ="claimData.Location" name="Location" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Land Type" [(ngModel)] ="claimData.landType" name="landType" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Land Area" [(ngModel)] ="claimData.landArea" name="landArea" [disabled]="true" >
+                          </mat-form-field>
+                      </div>
+                      <br><br>
+                      <div class="form-row">
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Fertilizer Name" [(ngModel)] ="claimData.fertilizerName" name="fertilizerName" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Manufacturer Name" [(ngModel)] ="claimData.manufacturerName" name="manufacturerName" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Order Quantity" [(ngModel)] ="claimData.orderQuantity" name="orderQuantity" [disabled]="true" >
+                          </mat-form-field>
+                      </div>
+                      <br><br>
+                      <div class="form-row">
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Total Price" [(ngModel)] ="claimData.totalPrice" name="totalPrice" [disabled]="true" >
+                          </mat-form-field>
+
+                          <mat-form-field class="col-md-4">
+                            <input matInput placeholder="Subsidy Amount" [(ngModel)] ="claimData.subsidyAmount" name="subsidyAmount" [disabled]="true" >
+                          </mat-form-field>
+                      </div>
+                </div>
+                <br><br><br>
+                <div class="form-row">
+                    <button  mat-raised-button color="primary" (click)="showForm=false;showGrid=true;">Back</button>
+                </div>
+              </div>
+
+            </form>
+            </mat-card-content>
+          </mat-card>
+
+        </mat-tab>
+
+
+</mat-tab-group>
+    </div>
+</div>
+<!-- Footer Div -->
+<!-- <footer-div></footer-div> -->

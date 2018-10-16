@@ -1,0 +1,310 @@
+<!-- header div -->
+<header-div></header-div>
+<!-- Main Div -->
+<div class="home-page" style="margin-top:66px">
+    <div class="col-md-12">
+      <mat-tab-group class="tabs" [selectedIndex]= 0>
+        <mat-tab label="Sale Order">
+          <br>
+          <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+            <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>
+          </div>
+          <mat-card class="vehiclecard" *ngIf="showGrid">
+            <mat-card-content>
+
+              <div class="container page" *ngIf="generateOTP">
+                <mat-form-field class="col-md-4">
+                  <input matInput placeholder="Enter CustomerID" [(ngModel)] ="customer.customerId" name="customerId">
+                </mat-form-field>
+                <div class="col-md-4">
+                  <button  mat-raised-button color="primary" (click)="getCustomerDetail();">GENERATE OTP</button>
+                </div>
+                <div class="form-row disclaimer">
+                  Enter Customer ID to whom you want to add sale data.
+                </div>
+              </div>
+
+              <div class="container page" *ngIf="showOTP">
+                <mat-form-field class="col-md-4">
+                  <input matInput placeholder="Enter OTP"  [(ngModel)] ="saleData.otp" name="otp">
+                </mat-form-field>
+                <div class="col-md-4">
+                  <button  mat-raised-button color="primary" [disabled]="generateOTP" (click)="generateOTPMethod();">Submit</button>
+                </div>
+                <div class="form-row disclaimer">
+                  Enter 4 Digit OTP which was sent to your mobile number.
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="vehiclecard" *ngIf="showForm">
+            <mat-card-content>
+              <div class="form-container">
+                  <div class="form-header">Sale Order Details</div>
+                  <br><br>
+                  <div class="form-row">
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Customer ID" [(ngModel)] ="customer.customerId" name="customerId" [disabled]="true" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Customer Name" [(ngModel)] ="customer.customerNm" name="customerName" [disabled]="true" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Contact Number" [(ngModel)] ="customer.contactNumber" name="contactNumber" [disabled]="true" >
+                      </mat-form-field>
+                  </div>
+                  <br><br>
+                  <div class="form-row">
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Location" [(ngModel)] ="customer.location" name="Location" [disabled]="true" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Land Area" [(ngModel)] ="customer.landArea" name="landArea" [disabled]="true" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Invoce Number" [(ngModel)] ="saleData.invoiceNo" name="invoiceNo" [disabled]="false" >
+                      </mat-form-field>
+                  </div>
+                  <br><br>
+                  <div class="form-row">
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Fertilizer Name" [(ngModel)] ="saleData.fartzName" name="fartzName" [disabled]="false" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Manufacturer Name" [(ngModel)] ="saleData.manfName" name="manfName" [disabled]="false" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Order Quantity" [(ngModel)] ="saleData.qty" name="qty" [disabled]="false" >
+                      </mat-form-field>
+                  </div>
+                  <br><br>
+                  <div class="form-row">
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Total Price" [(ngModel)] ="saleData.totalPrice" name="totalPrice" [disabled]="false" >
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-4">
+                        <input matInput placeholder="Subsidy Amount" [(ngModel)] ="saleData.subAmount" name="subAmount" [disabled]="true" >
+                      </mat-form-field>
+                      <div class="col-md-4">
+                        <button  mat-raised-button color="primary" (click)="calculateSubAmt();">Calculate Subsidy</button>
+                      </div>
+                  </div>
+              </div>
+              <br><br>
+
+              <div class="form-row">
+                  <button  mat-raised-button color="primary" (click)="addSaleData();" [disabled]="saleData.subAmount==null">Save</button>
+                  <button  mat-raised-button color="primary" (click)="showForm=false;generateOTP=true;showGrid=true;">Cancel</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </mat-tab>
+        <mat-tab class="mat-tab-label-style" label="Sale Details">
+            <br>
+            <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+              <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>
+            </div>
+            <mat-card class="vehiclecard" *ngIf="showGrid">
+            <mat-card-content>
+            <div class="container page" *ngIf="showGrid">
+                <div>
+                    <div class="col-md-4">
+                      <h4 class="main-route">Contracts</h4>
+                    </div>
+                    
+                </div>
+                <div class="example-container" class="col-xs-12">
+                  <mat-table #table [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="customerId">
+                      <mat-header-cell *matHeaderCellDef> Customer ID</mat-header-cell>
+                      <mat-cell *matCellDef="let element" style="cursor: pointer;color: dodgerblue;text-decoration: underline;"> {{element.customer.customerId}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fartzName">
+                      <mat-header-cell *matHeaderCellDef> FertilizerName </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fartzName}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="qty">
+                      <mat-header-cell *matHeaderCellDef> OrderQuantity </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalPrice">
+                      <mat-header-cell *matHeaderCellDef> TotalPrice </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.totalPrice}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subAmt">
+                      <mat-header-cell *matHeaderCellDef> SubsidyAmount </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.subAmt}} </mat-cell>
+                    </ng-container>
+
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  </mat-table>
+
+                  <mat-paginator #paginator
+                                 [pageSize]="5"
+                                 [showFirstLastButtons]="true">
+                  </mat-paginator>
+                </div>
+            </div>
+            </mat-card-content>
+           </mat-card>
+           <!-- <form [formGroup]="contractDetailForm"> -->
+          <form  #contractForm="ngForm" >
+            <!-- <div class="container page" *ngIf="showForm">
+                <div class="row">
+                    <div class="col-md-4" style="display:inline;">
+                      <h4 class="main-route-active">Contracts/</h4>
+                      <h5 class="sub-route" *ngIf="!isView">Create Sale</h5>
+                      <h5 class="sub-route" *ngIf="isView">{{this.contract.contractNumber}}</h5>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <div class="form-header">Contract Details</div>
+                    <br><br>
+                    <div class="form-row">
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Contract ID" [(ngModel)] ="contract.contractNumber" name="contractNumber" [disabled]="isView" required >
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput [matDatepicker]="myDatepicker" placeholder="Contract Date" [(ngModel)] ="contract.contractDate" name="contractDate" [disabled]="isView">
+                          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                          <mat-datepicker #myDatepicker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput [matDatepicker]="myDatepicker2" placeholder="Expiration Date" [(ngModel)] ="contract.expirationDate" name="expirationDate" [disabled]="isView">
+                          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+                          <mat-datepicker #myDatepicker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <br><br>
+                    <div class="form-row">
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Bank" [(ngModel)] ="contract.bank" name="bank" [disabled]="isView" required>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <mat-select placeholder="Manufacturer" [(ngModel)] ="contract.manufacturer" name="manufacturer" [disabled]="isView" required>
+                            <mat-option *ngFor="let item of objectKeys(manufacturers)" [value]="item" >
+                              {{ manufacturers[item] }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <mat-select placeholder="Dealer" [(ngModel)] ="contract.dealer" name="dealer" [disabled]="isView" required>
+                            <mat-option *ngFor="let item of objectKeys(dealers)" [value]="item" >
+                              {{ dealers[item] }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <br><br>
+                    <div class="form-row">
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Contract Description" [(ngModel)] ="contract.contractDescription" name="contractDescription" [disabled]="isView">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <mat-select placeholder="Repurchase Agreement*" [(ngModel)] ="contract.repurchaseAgreement" name="repurchaseAgreement" [disabled]="isView">
+                            <mat-option *ngFor="let data of repurchaseAgreement" [value]="data" >
+                              {{ data }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+
+                        <div class="col-md-4 no-padding">
+                          <input #file type="file" style="display:none;width:0px;" accept=".doc, .pdf" (change)="selectFile($event.target.files[0])">
+                          <mat-form-field class="col-md-12">
+                            <input matInput style="color:blue;text-decoration:underline;" placeholder="Repurchase terms and conditions" [(ngModel)] ="fileObject.attachmentFileName" name="attachmentFileName" [disabled]="((isView || ifBankUser()) && (contract.repurchaseAgreement!='Y') )">
+                          </mat-form-field>
+                          <button  mat-button #upload (click)="file.click()" [disabled]="isView || contract.repurchaseAgreement!='Y'" style="background-color:white;min-width:30px!important;height:30px;padding:0px 0px;margin-left:-50px!important;"><i class="glyphicon-align glyphicon glyphicon-paperclip"></i></button>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-row">
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput [matDatepicker]="myDatepicker3" placeholder="Delivery Due Date*" [(ngModel)] ="contract.deliveryDate" name="deliveryDate" [disabled]="isView">
+                          <mat-datepicker-toggle matPrefix [for]="myDatepicker3"></mat-datepicker-toggle>
+                          <mat-datepicker #myDatepicker3></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Delivery Terms*" [(ngModel)] ="contract.deliveryTerms" name="deliveryTerms" [disabled]="isView">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Delivery Location*" [(ngModel)] ="contract.deliveryLocation" name="deliveryLocation" [disabled]="isView">
+                        </mat-form-field>
+                    </div>
+                    <br><br>
+                    <div class="form-row">
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Number Of Vehicles*" [(ngModel)] ="contract.numberOfVehicle" name="numberOfVehicle" [disabled]="isView" required>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <input matInput placeholder="Total Vehicle Cost*" [(ngModel)] ="contract.totalVehicleCost" name="totalVehicleCost" [disabled]="isView" required>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-4">
+                          <mat-select placeholder="Payment Due*" [(ngModel)] ="contract.paymentDue" name="paymentDue" [disabled]="isView" required>
+                            <mat-option *ngFor="let option of sampleOptionsNumber" [value]="option.value" >
+                              {{ option.id }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <br><br>
+                    <div class="form-row">
+                        <mat-form-field class="col-md-4">
+                          <mat-select #mySelect placeholder="VIN Numbers" [(ngModel)] ="contract.vins" name="vins" [disabled]="((!ifOemUser()) || (this.contract.contractStatus=='Accepted' || this.contract.contractStatus=='Rejected' ||this.contract.contractStatus=='Active') )" multiple>
+                            <mat-option *ngFor="let option of vins" [value]="option" >
+                              {{ option }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row" style="max-height:10px;" *ngIf="contract.vins.length > 1">
+                        <div class="col-md-12" style="line-height:30px;" *ngFor="let option of contract.vins">{{option}}</div>
+                    </div>
+                    <br><br><br><br><br>
+                    <div class="form-row disclaimer">
+                      Payment will be made to the OEM in the amount above if the agreed upon vehicles are delivered to the above dealer by above due date. Once payment is received by OEM, title to the above vehicles will be transferred to the Bank.
+                      Contract requires signatures by all three parties.
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="ifOemUser()">
+                    <button  mat-raised-button color="primary" (click)="acceptContract();">Add</button>
+                    <button  mat-raised-button color="primary" (click)="showForm = false;showGrid=true;resetForm()">Back</button>
+                </div>
+            </div> -->
+          </form>
+
+        </mat-tab>
+
+
+</mat-tab-group>
+    </div>
+</div>
+<!-- Footer Div -->
+<!-- <footer-div></footer-div> -->

@@ -1,0 +1,176 @@
+<!-- header div -->
+<header-div></header-div>
+<!-- Main Div -->
+<div class="home-page" style="margin-top:66px">
+    <div class="col-md-12">
+      <mat-tab-group class="tabs" [selectedIndex]= 0>
+
+        <mat-tab class="mat-tab-label-style" label="Pending Claims">
+          <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+            <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>
+          </div>
+          <mat-card class="vehiclecard" *ngIf="showGrid">
+          <mat-card-content>
+          <div class="container page" *ngIf="showGrid">
+              <div>
+                  <div class="col-md-4">
+                    <h4 class="main-route">Claims</h4>
+                  </div>
+                  <div class="col-md-8 text-right float-right">
+                    <mat-form-field >
+                      <input matInput placeholder="nodeBalance" [(ngModel)] ="nodeBalance" name="nodeBalance" [disabled]="true" >
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="getBalance();" >GetBalance</button>
+                  </div>
+              </div>
+              <div class="example-container" class="col-xs-12">
+                <mat-table #table [dataSource]="dataSource1">
+
+                  <ng-container matColumnDef="claimID">
+                    <mat-header-cell *matHeaderCellDef> Claim ID</mat-header-cell>
+                    <mat-cell *matCellDef="let element" style="cursor: pointer;color: dodgerblue;text-decoration: underline;" (click)="getClaimDetail(element.claimID);"> {{element.claimID}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="manufactName">
+                    <mat-header-cell *matHeaderCellDef> Manufacturer Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.manufactName}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="manufactID">
+                    <mat-header-cell *matHeaderCellDef> Manufacturer ID </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.manufactID}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="totalSubAmt">
+                    <mat-header-cell *matHeaderCellDef> Subsidy Amount </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.totalSubAmt}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+                  </ng-container>
+
+
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+                </mat-table>
+
+                <mat-paginator #paginator
+                               [pageSize]="5"
+                               [showFirstLastButtons]="true">
+                </mat-paginator>
+              </div>
+          </div>
+          </mat-card-content>
+         </mat-card>
+
+         <mat-card class="vehiclecard" *ngIf="showForm">
+           <mat-card-content>
+           <div class="container page" *ngIf="showForm">
+             <div class="form-row">
+                 <mat-form-field class="col-md-4">
+                   <input matInput placeholder="Claim ID" [(ngModel)] ="claimData.claimID" name="claimID" [disabled]="true" >
+                 </mat-form-field>
+
+                 <mat-form-field class="col-md-4">
+                   <input matInput placeholder="Manufacturer Name" [(ngModel)] ="claimData.manufactName" name="manufactName" [disabled]="true" >
+                 </mat-form-field>
+
+                 <mat-form-field class="col-md-4">
+                   <input matInput placeholder="Manufacturer ID" [(ngModel)] ="claimData.manufactID" name="manufactID" [disabled]="true" >
+                 </mat-form-field>
+             </div>
+             <br><br>
+             <div class="form-row">
+                 <mat-form-field class="col-md-4">
+                   <input matInput placeholder="TotalSubsidyAmount" [(ngModel)] ="claimData.totalSubAmt" name="totalSubAmt" [disabled]="true" >
+                 </mat-form-field>
+
+                 <mat-form-field class="col-md-4">
+                   <input matInput placeholder="Status" [(ngModel)] ="claimData.status" name="status" [disabled]="true" >
+                 </mat-form-field>
+
+             </div>
+
+         <br><br><br><br>
+
+         <div class="form-row" class="col-md-12">
+             <button  mat-raised-button color="primary" (click)="transfer();">Transfer</button>
+             <button  mat-raised-button color="primary" (click)="showForm=false;generateOTP=true;showGrid=true;">Reject</button>
+         </div>
+         </div>
+           </mat-card-content>
+         </mat-card>
+      </mat-tab>
+
+        <mat-tab class="mat-tab-label-style" label="Processed Claims" active>
+            <br>
+            <div style="position: fixed;margin-left:600px;margin-top:150px;z-index: 9;">
+              <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"  style="margin:0 auto;">   </mat-progress-spinner>
+            </div>
+            <mat-card class="vehiclecard" *ngIf="showGrid">
+            <mat-card-content>
+            <div class="container page" *ngIf="showGrid">
+                <div>
+                    <div class="col-md-4">
+                      <h4 class="main-route">Claims</h4>
+                    </div>
+                    <div class="col-md-8 text-right float-right">
+                      <mat-form-field >
+                        <input matInput placeholder="nodeBalance" [(ngModel)] ="nodeBalance" name="nodeBalance" [disabled]="true" >
+                      </mat-form-field>
+                      <button mat-raised-button color="primary" (click)="getBalance();" >GetBalance</button>
+                    </div>
+                </div>
+                <div class="example-container" class="col-xs-12">
+                  <mat-table #table [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="claimID">
+                      <mat-header-cell *matHeaderCellDef> Claim ID</mat-header-cell>
+                      <mat-cell *matCellDef="let element" style="cursor: pointer;color: dodgerblue;text-decoration: underline;"> {{element.claimID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="manufactName">
+                      <mat-header-cell *matHeaderCellDef> Manufacturer Name </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.manufactName}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="manufactID">
+                      <mat-header-cell *matHeaderCellDef> Manufacturer ID </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.manufactID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalSubAmt">
+                      <mat-header-cell *matHeaderCellDef> TotalSubsidyAmount </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.totalSubAmt}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  </mat-table>
+
+                  <mat-paginator #paginator
+                                 [pageSize]="5"
+                                 [showFirstLastButtons]="true">
+                  </mat-paginator>
+                </div>
+            </div>
+            </mat-card-content>
+           </mat-card>
+           <!-- <form [formGroup]="contractDetailForm"> -->
+
+        </mat-tab>
+
+
+</mat-tab-group>
+    </div>
+</div>
+<!-- Footer Div -->
+<!-- <footer-div></footer-div> -->

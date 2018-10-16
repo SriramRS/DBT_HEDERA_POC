@@ -1,0 +1,40 @@
+<header-div></header-div>
+
+<div class="login-page-wrapper">
+	<div class="login-page-container">
+		<div>
+			<div class="login-container">
+				<div class="section-header"><i class=" glyphicon-align glyphicon glyphicon-user "></i> &nbsp; Sign In</div>
+				<span class="error-label">{{error.message}}</span>
+				<form name="loginForm">
+					<div class="login-page-lable">
+						&nbsp;
+					</div>
+          <div>
+            <mat-form-field class="example-full-width">
+							 <span class="error-label">{{error.userNamel}}</span>
+               <input matInput class="logintext" [(ngModel)]="user.userNamel" placeholder="User Name" [ngModelOptions]="{standalone: true}" >
+           </mat-form-field>
+           <br>
+            <mat-form-field class="example-full-width">
+							<span class="error-label">{{error.passwordl}}</span>
+              <input matInput class="logintext" [(ngModel)]="user.passwordl" placeholder="Password" type="password" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+						<br>
+						<mat-form-field class="example-full-width">
+							<span class="error-label">{{error.chainType}}</span>
+							<mat-select placeholder="UserType" [(ngModel)] ="user.chainType" name="ChainType">
+								<mat-option *ngFor="let item of userTypes" [value]="item" >
+									{{ item}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+						</div>
+				  	<div class="login-button">
+					  	<button id="login-button" class="btn example-full-width" type="submit" (click)="login()">Sign In</button>
+				   	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

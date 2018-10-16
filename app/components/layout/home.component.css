@@ -1,0 +1,176 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  width:1202px;
+  border-left-color: #d3d8d8;
+  border-left-style: solid;
+  border-left-width: 0.5px;
+  border-right-color: #d3d8d8;
+  border-right-style: solid;
+  border-right-width: 0.5px;
+  box-shadow: 5px 5px 20px #888888;
+}
+.panel-body {
+    padding: 0px;
+}
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+:host /deep/ .index-column,
+:host /deep/ .index-column-header {
+    text-align: right;
+}
+
+:host /deep/ .data-table .data-table-row.selected {
+    background-color: #E4EDF9;
+}
+.mat-horizontal-stepper-header-container {
+   color:green !important;
+}
+.mat-step .mat-stepper-horizontal-line {
+    color: green!important;
+}
+.example-table {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+.form-continer input, textarea, select {
+    width: 75%;
+    
+}
+/* The container */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: rgb(64,193,172);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.btn {
+  background-color: #f4511e;
+  border: none;
+  color: white;
+  padding: 10px 27px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  /*opacity: 0.6;*/
+  transition: 0.3s;
+    width:14%
+}
+#shipper .btn{
+   background-color: #f4511e;
+  border: none;
+  color: white;
+  padding: 7px 10px;
+  text-align: center;
+  font-size: 14px;
+  margin: 4px 2px;
+  /*opacity: 0.6;*/
+  transition: 0.3s;
+    width:14% 
+}
+.menu-container{
+    min-height: 100vh;
+    width: 300px;
+    background-color:rgba(0, 0, 0, 0.75);
+    position: fixed;
+    z-index: 555;
+    left: -300px;
+}
+.menu-close{
+    font-size: 25px;
+    padding: 10px;
+    color: #fff;
+}
+.fa-cls:before{
+   content: "\2715"; 
+}
+.menu-container-inner{
+    text-align: center;
+}
+.menu-img{
+        border-radius: 50%;
+    overflow: hidden;
+    height: 150px;
+    width: 150px;
+}
+.menu-link-cont{
+    font-size: 22px;
+    display: grid;
+    color: #fff;
+    line-height: 45px;
+}
+.btn-logout{
+    font-size: 18px;
+    line-height: 25px;
+    
+}
+.menu-link{
+    cursor: pointer;
+}
