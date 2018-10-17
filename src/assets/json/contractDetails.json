@@ -1,0 +1,24 @@
+[
+  {
+"contractId": "ContractXYZ",
+"contractDate": "",
+"expirationDate":"" ,
+"bank": "",
+"manufacturer": "",
+"dealer": "",
+"description":"" ,
+"repurchaseAggreement": "",
+"deliveryDueDate":"",
+"repurchaseTerms": "",
+"deliveryDueDate": "",
+"deliveryTerms": "",
+"deliveryLocation":"" ,
+"numberOfVehicles": 0,
+"totalVehicleCost": 0,
+"paymentDue": "",
+"vinNumbers": "",
+"contractStatus": "Active",
+"shipmentStatus": "-",
+"invoiceStatus": "-"
+}
+]

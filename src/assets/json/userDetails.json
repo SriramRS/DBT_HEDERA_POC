@@ -1,0 +1,13 @@
+[{
+  "userName":"Alice",
+  "password":"DBT00001",
+  "userType":"Retailer"
+},{
+  "userName":"Bob",
+  "password":"DBT00001",
+  "userType":"Manufacturer"
+},{
+  "userName":"Charley",
+  "password":"DBT00001",
+  "userType":"Government"
+}]

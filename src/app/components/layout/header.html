@@ -1,0 +1,25 @@
+<div id="header" class="header-container">
+  <div class="header-logo">
+    <!--<span class="header-label">
+      <img class="logo" src="./../assets/images/chase.PNG" class="header-logo-icon">
+      <span class="header-label-lower headersty"></span>
+    </span>-->
+    <H3>Direct Benefit Transfer</H3>
+    <br>
+  </div>
+
+  <div class="header-logout-container" *ngIf="_router.url != '/login'">
+    <div *ngIf="user && user.userNamel" style="top:-15px;position:relative;" class="logged-in-label">
+      <span class="logged-in-user-name" >UserName : {{user.userNamel}}</span><br>
+      <span class="logged-in-user-name" >LoggedInAs : {{user.userType}}</span><br>
+    </div>
+    <div ng-show="user">
+      <a href="javascript:void(0)" (click)="logout()">
+        <i class="glyphicon glyphicon-bell bell1" style="color:#fff!important;"></i>
+        <i class="glyphicon glyphicon-off" style="color:#fff!important;"></i>
+      </a>
+    </div>
+    <div *ngIf="!user || !user.userNamel">
+    </div>
+  </div>
+</div>
